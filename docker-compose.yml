@@ -1,0 +1,34 @@
+version: '3.9'
+
+services:
+  genericapplication.api:
+    image: genericapplication-api
+    build:
+      context: .
+      dockerfile: GenericApplication.API/Dockerfile
+  db:
+    image: postgres
+    container_name: local_pgdb
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: randomusr
+      POSTGRES_PASSWORD: str0ngP@ssWrd55
+    volumes:
+      - local_pgdata:/var/lib/postgresql/data
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    restart: always
+    ports:
+      - "7772:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@a.local
+      PGADMIN_DEFAULT_PASSWORD: xyzstr0ngP@ssWrd55
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
+volumes:
+  local_pgdata:
+  pgadmin-data:
